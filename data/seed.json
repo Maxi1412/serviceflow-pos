@@ -1,0 +1,589 @@
+{
+  "version": 1,
+  "restaurant": "Marina Bistro",
+  "stations": [
+    {
+      "id": "hot",
+      "name": "Hot kitchen",
+      "device": "Kitchen printer 1"
+    },
+    {
+      "id": "cold",
+      "name": "Cold kitchen",
+      "device": "Kitchen printer 2"
+    },
+    {
+      "id": "dessert",
+      "name": "Dessert station",
+      "device": "Dessert printer"
+    },
+    {
+      "id": "bar",
+      "name": "Bar",
+      "device": "Bar printer"
+    }
+  ],
+  "routes": {
+    "Starters": "cold",
+    "Mains": "hot",
+    "Desserts": "dessert",
+    "Drinks": "bar"
+  },
+  "printJobs": [],
+  "products": [
+    {
+      "id": "p1",
+      "name": "Garlic bread",
+      "price": 5.5,
+      "category": "Starters",
+      "course": "Starter",
+      "icon": "🥖",
+      "options": [],
+      "cost": 1.71,
+      "family": "Food",
+      "subcategory": "Starters",
+      "stationId": "cold"
+    },
+    {
+      "id": "p2",
+      "name": "Prawn cocktail",
+      "price": 9.5,
+      "category": "Starters",
+      "course": "Starter",
+      "icon": "🍤",
+      "options": [],
+      "cost": 2.94,
+      "family": "Food",
+      "subcategory": "Starters",
+      "stationId": "cold"
+    },
+    {
+      "id": "p3",
+      "name": "Caesar salad",
+      "price": 8.5,
+      "category": "Starters",
+      "course": "Starter",
+      "icon": "🥗",
+      "options": [],
+      "cost": 2.63,
+      "family": "Food",
+      "subcategory": "Starters",
+      "stationId": "cold"
+    },
+    {
+      "id": "p4",
+      "name": "Sirloin steak",
+      "price": 23.5,
+      "category": "Mains",
+      "course": "Main",
+      "icon": "🥩",
+      "options": [
+        {
+          "name": "Cooking preference",
+          "mode": "required",
+          "values": [
+            {
+              "label": "Rare",
+              "price": 0
+            },
+            {
+              "label": "Medium rare",
+              "price": 0
+            },
+            {
+              "label": "Medium",
+              "price": 0
+            },
+            {
+              "label": "Well done",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "name": "Side dish",
+          "mode": "required",
+          "values": [
+            {
+              "label": "Potatoes",
+              "price": 0
+            },
+            {
+              "label": "Chips instead",
+              "price": 2
+            },
+            {
+              "label": "Side salad",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "name": "Extra sauces",
+          "mode": "multi",
+          "values": [
+            {
+              "label": "Peppercorn sauce",
+              "price": 1.5
+            },
+            {
+              "label": "Mushroom sauce",
+              "price": 1.5
+            },
+            {
+              "label": "Garlic butter",
+              "price": 1
+            }
+          ]
+        }
+      ],
+      "cost": 7.29,
+      "family": "Food",
+      "subcategory": "Mains",
+      "stationId": "hot"
+    },
+    {
+      "id": "p5",
+      "name": "Sea bass",
+      "price": 19.5,
+      "category": "Mains",
+      "course": "Main",
+      "icon": "🐟",
+      "options": [
+        {
+          "name": "Side dish",
+          "mode": "single",
+          "values": [
+            {
+              "label": "Vegetables",
+              "price": 0
+            },
+            {
+              "label": "Chips",
+              "price": 2
+            }
+          ]
+        }
+      ],
+      "cost": 6.04,
+      "family": "Food",
+      "subcategory": "Mains",
+      "stationId": "hot"
+    },
+    {
+      "id": "p6",
+      "name": "Cheeseburger",
+      "price": 14.5,
+      "category": "Mains",
+      "course": "Main",
+      "icon": "🍔",
+      "options": [
+        {
+          "name": "Extras",
+          "mode": "multi",
+          "values": [
+            {
+              "label": "Extra cheese",
+              "price": 1
+            },
+            {
+              "label": "Bacon",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "cost": 4.5,
+      "family": "Food",
+      "subcategory": "Mains",
+      "stationId": "hot"
+    },
+    {
+      "id": "p7",
+      "name": "Chocolate fondant",
+      "price": 7.5,
+      "category": "Desserts",
+      "course": "Dessert",
+      "icon": "🍫",
+      "options": [],
+      "cost": 2.33,
+      "family": "Food",
+      "subcategory": "Desserts",
+      "stationId": "dessert"
+    },
+    {
+      "id": "p8",
+      "name": "Cheesecake",
+      "price": 7,
+      "category": "Desserts",
+      "course": "Dessert",
+      "icon": "🍰",
+      "options": [],
+      "cost": 2.17,
+      "family": "Food",
+      "subcategory": "Desserts",
+      "stationId": "dessert"
+    },
+    {
+      "id": "p9",
+      "name": "House wine",
+      "price": 4.5,
+      "category": "Drinks",
+      "course": "Drinks",
+      "icon": "🍷",
+      "options": [],
+      "cost": 1.4,
+      "family": "Beverages",
+      "subcategory": "Drinks",
+      "stationId": "bar"
+    },
+    {
+      "id": "p10",
+      "name": "Draft beer",
+      "price": 3.5,
+      "category": "Drinks",
+      "course": "Drinks",
+      "icon": "🍺",
+      "options": [],
+      "cost": 1.08,
+      "family": "Beverages",
+      "subcategory": "Drinks",
+      "stationId": "bar"
+    },
+    {
+      "id": "p11",
+      "name": "Still water",
+      "price": 2.5,
+      "category": "Drinks",
+      "course": "Drinks",
+      "icon": "💧",
+      "options": [],
+      "cost": 0.78,
+      "family": "Beverages",
+      "subcategory": "Drinks",
+      "stationId": "bar"
+    },
+    {
+      "id": "p12",
+      "name": "Espresso",
+      "price": 2.2,
+      "category": "Drinks",
+      "course": "Drinks",
+      "icon": "☕",
+      "options": [],
+      "cost": 0.68,
+      "family": "Beverages",
+      "subcategory": "Drinks",
+      "stationId": "bar"
+    }
+  ],
+  "categories": [
+    "Starters",
+    "Mains",
+    "Desserts",
+    "Drinks"
+  ],
+  "tables": [
+    {
+      "id": "m1",
+      "name": "Table 1",
+      "zone": "Main room",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "m2",
+      "name": "Table 2",
+      "zone": "Main room",
+      "covers": 2,
+      "openedAt": "2026-10-17T13:10:00.000Z",
+      "items": [
+        {
+          "id": "mvcmh4k9-wjeetj",
+          "productId": "p4",
+          "productName": "Sirloin steak",
+          "basePrice": 23.5,
+          "qty": 1,
+          "options": [
+            {
+              "group": "Cooking preference",
+              "label": "Medium rare",
+              "price": 0
+            },
+            {
+              "group": "Side dish",
+              "label": "Chips instead",
+              "price": 2
+            },
+            {
+              "group": "Extra sauces",
+              "label": "Peppercorn sauce",
+              "price": 1.5
+            }
+          ],
+          "notes": "",
+          "course": "Main",
+          "sent": true,
+          "ready": false,
+          "at": 1792255207257
+        },
+        {
+          "id": "mvcmh4k9-gv848x",
+          "productId": "p9",
+          "productName": "House wine",
+          "basePrice": 4.5,
+          "qty": 2,
+          "options": [],
+          "notes": "",
+          "course": "Drinks",
+          "sent": true,
+          "ready": false,
+          "at": 1792255207257
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "name": "Table 3",
+      "zone": "Main room",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "m4",
+      "name": "Table 4",
+      "zone": "Main room",
+      "covers": 4,
+      "openedAt": "2026-10-17T13:32:00.000Z",
+      "items": [
+        {
+          "id": "mvcmh4k9-6j6pq7",
+          "productId": "p2",
+          "productName": "Prawn cocktail",
+          "basePrice": 9.5,
+          "qty": 2,
+          "options": [],
+          "notes": "",
+          "course": "Starter",
+          "sent": true,
+          "ready": false,
+          "at": 1792255207257
+        },
+        {
+          "id": "mvcmh4k9-mj1k4b",
+          "productId": "p6",
+          "productName": "Cheeseburger",
+          "basePrice": 14.5,
+          "qty": 2,
+          "options": [],
+          "notes": "",
+          "course": "Main",
+          "sent": true,
+          "ready": false,
+          "at": 1792255207257
+        }
+      ]
+    },
+    {
+      "id": "m5",
+      "name": "Table 5",
+      "zone": "Main room",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "m6",
+      "name": "Table 6",
+      "zone": "Main room",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "t1",
+      "name": "Terrace 1",
+      "zone": "Terrace",
+      "covers": 2,
+      "openedAt": "2026-10-17T13:50:00.000Z",
+      "items": [
+        {
+          "id": "mvcmh4k9-ypkemd",
+          "productId": "p10",
+          "productName": "Draft beer",
+          "basePrice": 3.5,
+          "qty": 2,
+          "options": [],
+          "notes": "",
+          "course": "Drinks",
+          "sent": true,
+          "ready": true,
+          "at": 1792255207257
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "Terrace 2",
+      "zone": "Terrace",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "t3",
+      "name": "Terrace 3",
+      "zone": "Terrace",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "t4",
+      "name": "Terrace 4",
+      "zone": "Terrace",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "b1",
+      "name": "Bar 1",
+      "zone": "Bar",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    },
+    {
+      "id": "b2",
+      "name": "Bar 2",
+      "zone": "Bar",
+      "covers": 0,
+      "openedAt": null,
+      "items": []
+    }
+  ],
+  "ledger": [
+    {
+      "id": "mvcmh4k9-ualugz",
+      "at": "2026-10-17T10:35:00.000Z",
+      "total": 18.2,
+      "method": "cash",
+      "covers": 2,
+      "items": [
+        {
+          "name": "Coffee and breakfast",
+          "quantity": 2,
+          "total": 18.2
+        }
+      ]
+    },
+    {
+      "id": "mvcmh4k9-livpeq",
+      "at": "2026-10-17T11:10:00.000Z",
+      "total": 36,
+      "method": "card",
+      "covers": 3,
+      "items": [
+        {
+          "name": "Lunch special",
+          "quantity": 3,
+          "total": 36
+        }
+      ]
+    },
+    {
+      "id": "mvcmh4k9-9zc5uz",
+      "at": "2026-10-17T12:40:00.000Z",
+      "total": 58.5,
+      "method": "card",
+      "covers": 2,
+      "items": [
+        {
+          "name": "Sea bass",
+          "quantity": 2,
+          "total": 39
+        },
+        {
+          "name": "Drinks",
+          "quantity": 3,
+          "total": 19.5
+        }
+      ]
+    },
+    {
+      "id": "mvcmh4k9-vmt72x",
+      "at": "2026-10-17T13:20:00.000Z",
+      "total": 24.7,
+      "method": "cash",
+      "covers": 2,
+      "items": [
+        {
+          "name": "Cheeseburger",
+          "quantity": 1,
+          "total": 14.5
+        },
+        {
+          "name": "Drinks",
+          "quantity": 3,
+          "total": 10.2
+        }
+      ]
+    }
+  ],
+  "inventory": [
+    {
+      "id": "s1",
+      "name": "Sirloin steak",
+      "unit": "portions",
+      "qty": 22,
+      "minimum": 10
+    },
+    {
+      "id": "s2",
+      "name": "Potatoes",
+      "unit": "kg",
+      "qty": 16,
+      "minimum": 6
+    },
+    {
+      "id": "s3",
+      "name": "Chips",
+      "unit": "kg",
+      "qty": 8,
+      "minimum": 5
+    },
+    {
+      "id": "s4",
+      "name": "Draft beer",
+      "unit": "litres",
+      "qty": 36,
+      "minimum": 20
+    },
+    {
+      "id": "s5",
+      "name": "House wine",
+      "unit": "bottles",
+      "qty": 18,
+      "minimum": 8
+    },
+    {
+      "id": "s6",
+      "name": "Coffee beans",
+      "unit": "kg",
+      "qty": 5,
+      "minimum": 3
+    }
+  ],
+  "stockLog": [],
+  "shift": {
+    "open": true,
+    "opening": 150,
+    "startedAt": "2026-10-17T09:00:00.000Z",
+    "movements": [],
+    "lastClose": null
+  },
+  "notes": []
+}
