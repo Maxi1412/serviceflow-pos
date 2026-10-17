@@ -1,4 +1,4 @@
-# Archived planning document. See V02_IMPLEMENTATION.md for implemented v0.2 state.
+# Archived planning document. See V03_IMPLEMENTATION.md for implemented v0.3 state.
 # Proposed architecture — not yet deployed or configured
 
 ## Architectural principles

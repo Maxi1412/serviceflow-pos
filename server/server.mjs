@@ -46,12 +46,60 @@ function makePrintJobs(before,after){
  }
  return jobs;
 }
+// v0.3: compare-and-swap each touched resource, rather than rejecting unrelated tables.
+// Each change includes the exact base object the terminal last observed. This is
+// still a LAN development API with NO authentication and NO production authorization.
+const RESOURCES = new Set(['tables','products','inventory','stations']);
+const SINGLETONS = new Set(['restaurant','routes','categories','stockLog','shift','ledger','notes']);
+const equal = (a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function applyChanges(changes){
+ if(!Array.isArray(changes)||!changes.length||changes.length>250)throw Object.assign(new Error('Expected 1–250 changes'),{status:422});
+ const draft=structuredClone(db.state);
+ const keys=new Set();
+ for(const c of changes){
+  if(!c||typeof c!=='object'||typeof c.collection!=='string')throw Object.assign(new Error('Invalid change'),{status:422});
+  const key=c.collection+':'+(c.id||'');
+  if(keys.has(key))throw Object.assign(new Error('Duplicate change target'),{status:422});
+  keys.add(key);
+  if(RESOURCES.has(c.collection)){
+   if(typeof c.id!=='string'||!c.id||c.id.length>90)throw Object.assign(new Error('Invalid resource ID'),{status:422});
+   const list=draft[c.collection];if(!Array.isArray(list))throw Object.assign(new Error('Invalid collection'),{status:422});
+   const idx=list.findIndex(v=>v.id===c.id);
+   const current=idx<0?null:list[idx];
+   if(!equal(current,c.previous??null))throw Object.assign(new Error('Another terminal changed '+c.collection+' / '+c.id+'. Refresh before editing again.'),{status:409});
+   if(c.next===null){if(idx>=0)list.splice(idx,1)}
+   else{
+    if(!c.next||typeof c.next!=='object'||c.next.id!==c.id)throw Object.assign(new Error('Invalid updated resource'),{status:422});
+    if(idx<0)list.push(c.next);else list[idx]=c.next;
+   }
+  }else if(SINGLETONS.has(c.collection)){
+   if(!equal(draft[c.collection],c.previous))throw Object.assign(new Error('Another terminal changed '+c.collection+'. Refresh before editing again.'),{status:409});
+   draft[c.collection]=c.next;
+  }else throw Object.assign(new Error('Cannot edit '+c.collection),{status:422});
+ }
+ if(!validState(draft))throw Object.assign(new Error('Invalid restaurant data'),{status:422});
+ if(draft.products.some((p,i,arr)=>arr.findIndex(v=>v.id===p.id)!==i))throw Object.assign(new Error('Duplicate product ID'),{status:422});
+ if(draft.tables.some((p,i,arr)=>arr.findIndex(v=>v.id===p.id)!==i))throw Object.assign(new Error('Duplicate table ID'),{status:422});
+ // Kitchen job queue is *always* assembled from newly sent lines on the server.
+ const jobs=makePrintJobs(db.state,draft);
+ draft.printJobs=[...db.state.printJobs,...jobs].slice(-5000);
+ return {draft,jobs};
+}
 async function readJson(req){let parts=[],length=0;for await(const chunk of req){length+=chunk.length;if(length>5_000_000){const err=new Error('Payload exceeds 5 MB');err.status=413;throw err}parts.push(chunk)}try{return JSON.parse(Buffer.concat(parts).toString('utf8'))}catch{const err=new Error('Invalid JSON');err.status=400;throw err}}
 const server=http.createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://127.0.0.1');
-  if(url.pathname==='/api/health'&&req.method==='GET')return json(res,200,{ok:true,mode:'local-demo-server',revision:db.revision,physicalPrinting:false,fiscal:false});
+  if(url.pathname==='/api/health'&&req.method==='GET')return json(res,200,{ok:true,mode:'local-demo-server',version:'0.3.0',scopedChanges:true,revision:db.revision,physicalPrinting:false,fiscal:false});
   if(url.pathname==='/api/state'&&req.method==='GET')return json(res,200,{revision:db.revision,state:db.state});
+  if(url.pathname==='/api/patch'&&req.method==='POST'){
+   const {requestId,changes}=await readJson(req);
+   if(typeof requestId!=='string'||requestId.length<8||requestId.length>100)return json(res,422,{error:'Invalid requestId'});
+   if(db.processedIds.includes(requestId))return json(res,200,{revision:db.revision,state:db.state,replayed:true,ticketsCreated:0});
+   let result;
+   try{result=applyChanges(changes)}catch(error){return json(res,error.status||500,{error:error.message,revision:db.revision});}
+   db={revision:db.revision+1,state:result.draft,processedIds:[...db.processedIds,requestId].slice(-300)};
+   persist();return json(res,200,{revision:db.revision,state:db.state,ticketsCreated:result.jobs.length});
+  }
   if(url.pathname==='/api/commit'&&req.method==='POST'){
    const {revision,requestId,state}=await readJson(req);
    if(!Number.isInteger(revision)||typeof requestId!=='string'||requestId.length>100||!validState(state))return json(res,422,{error:'Invalid restaurant data or revision'});

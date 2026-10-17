@@ -1,6 +1,6 @@
 # Delivery plan — approval gates and acceptance criteria
 
-## Phase 0 — research and first demonstrator (THIS PACKAGE)
+## Phase 0 — research and first demonstrator (prototype complete)
 
 - [x] Benchmark the main POS features and Spanish restaurant workflows against official vendor documentation.
 - [x] Build an original responsive layout for floor plan, waiter, kitchen, reporting, menu editing, stocktake and cash-up.
@@ -8,8 +8,8 @@
 - [x] Include editable modifier groups, menu photos and sample stock adjustment actions.
 - [x] Run browser smoke test (desktop and mobile); source `tests/test_smoke.py`.
 - [ ] Owner review of initial interface; mark approved sections before changing design.
-- [ ] Create private GitHub repository; publish initial source and README there.
-- [ ] Deploy safely labeled demo at an accessible public URL (host to be approved).
+- [x] Create GitHub repository and publish initial source and README there. Note: repository is currently PUBLIC, not private.
+- [ ] Verify the GitHub Pages static demo is reachable. Shared backend hosting is separately pending.
 
 ## Phase 1 — product design decisions
 
