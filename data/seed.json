@@ -290,7 +290,11 @@
       "zone": "Main room",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 17,
+      "y": 25,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "m2",
@@ -341,7 +345,11 @@
           "ready": false,
           "at": 1792255207257
         }
-      ]
+      ],
+      "x": 50,
+      "y": 25,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "m3",
@@ -349,7 +357,11 @@
       "zone": "Main room",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 83,
+      "y": 25,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "m4",
@@ -384,7 +396,11 @@
           "ready": false,
           "at": 1792255207257
         }
-      ]
+      ],
+      "x": 17,
+      "y": 72,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "m5",
@@ -392,7 +408,11 @@
       "zone": "Main room",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 50,
+      "y": 72,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "m6",
@@ -400,7 +420,11 @@
       "zone": "Main room",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 83,
+      "y": 72,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "t1",
@@ -422,7 +446,11 @@
           "ready": true,
           "at": 1792255207257
         }
-      ]
+      ],
+      "x": 25,
+      "y": 27,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "t2",
@@ -430,7 +458,11 @@
       "zone": "Terrace",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 73,
+      "y": 27,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "t3",
@@ -438,7 +470,11 @@
       "zone": "Terrace",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 25,
+      "y": 72,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "t4",
@@ -446,7 +482,11 @@
       "zone": "Terrace",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 73,
+      "y": 72,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "b1",
@@ -454,7 +494,11 @@
       "zone": "Bar",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 30,
+      "y": 50,
+      "shape": "rect",
+      "seats": 4
     },
     {
       "id": "b2",
@@ -462,7 +506,11 @@
       "zone": "Bar",
       "covers": 0,
       "openedAt": null,
-      "items": []
+      "items": [],
+      "x": 70,
+      "y": 50,
+      "shape": "rect",
+      "seats": 4
     }
   ],
   "ledger": [
@@ -585,5 +633,10 @@
     "movements": [],
     "lastClose": null
   },
-  "notes": []
+  "notes": [],
+  "areas": [
+    "Main room",
+    "Terrace",
+    "Bar"
+  ]
 }

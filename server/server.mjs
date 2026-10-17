@@ -25,9 +25,10 @@ function persist(){fs.mkdirSync(path.dirname(DATA_FILE),{recursive:true});const 
 function validState(s){
  if(!s||typeof s!=='object'||s.version!==1||typeof s.restaurant!=='string'||s.restaurant.length>100)return false;
  for(const [field,max] of [['products',1500],['tables',250],['stations',50],['printJobs',5000],['ledger',50000],['inventory',10000]])if(!Array.isArray(s[field])||s[field].length>max)return false;
- if(!s.products.every(p=>p&&typeof p.id==='string'&&p.id.length<90&&typeof p.name==='string'&&p.name.length<=120&&Number.isFinite(p.price)&&p.price>=0&&p.price<=1000000&&Number.isFinite(Number(p.cost||0))&&Number(p.cost||0)>=0))return false;
- if(!s.tables.every(t=>t&&typeof t.id==='string'&&Array.isArray(t.items)&&t.items.length<1000&&Number.isInteger(t.covers)&&t.covers>=0&&t.covers<=500))return false;
- if(!s.stations.every(x=>x&&typeof x.id==='string'&&x.id.length<90&&typeof x.name==='string'&&x.name.length<100))return false;
+ if(!s.products.every(p=>p&amp;&amp;typeof p.id==='string'&amp;&amp;p.id.length<90&amp;&amp;typeof p.name==='string'&amp;&amp;p.name.length<=120&amp;&amp;Number.isFinite(p.price)&amp;&amp;p.price>=0&amp;&amp;p.price<=1000000&amp;&amp;Number.isFinite(Number(p.cost||0))&amp;&amp;Number(p.cost||0)>=0))return false;
+ if(!s.tables.every(t=>t&amp;&amp;typeof t.id==='string'&amp;&amp;typeof t.zone==='string'&amp;&amp;t.zone.length<=40&amp;&amp;typeof t.name==='string'&amp;&amp;t.name.length<=40&amp;&amp;Array.isArray(t.items)&amp;&amp;t.items.length<1000&amp;&amp;Number.isInteger(t.covers)&amp;&amp;t.covers>=0&amp;&amp;t.covers<=500&amp;&amp;(t.x===undefined||(Number.isFinite(t.x)&amp;&amp;t.x>=0&amp;&amp;t.x<=100))&amp;&amp;(t.y===undefined||(Number.isFinite(t.y)&amp;&amp;t.y>=0&amp;&amp;t.y<=100))&amp;&amp;(t.shape===undefined||['round','square','rect'].includes(t.shape))&amp;&amp;(t.seats===undefined||(Number.isInteger(t.seats)&amp;&amp;t.seats>=1&amp;&amp;t.seats<=20))))return false;
+ if(s.areas!==undefined&amp;&amp;(!Array.isArray(s.areas)||s.areas.length>100||!s.areas.every(z=>typeof z==='string'&amp;&amp;z.length>0&amp;&amp;z.length<=40)))return false;
+ if(!s.stations.every(x=>x&amp;&amp;typeof x.id==='string'&amp;&amp;x.id.length<90&amp;&amp;typeof x.name==='string'&amp;&amp;x.name.length<100))return false;
  return true;
 }
 function makePrintJobs(before,after){
@@ -50,7 +51,7 @@ function makePrintJobs(before,after){
 // Each change includes the exact base object the terminal last observed. This is
 // still a LAN development API with NO authentication and NO production authorization.
 const RESOURCES = new Set(['tables','products','inventory','stations']);
-const SINGLETONS = new Set(['restaurant','routes','categories','stockLog','shift','ledger','notes']);
+const SINGLETONS = new Set(['restaurant','routes','categories','areas','stockLog','shift','ledger','notes']);
 const equal = (a,b)=>JSON.stringify(a)===JSON.stringify(b);
 function applyChanges(changes){
  if(!Array.isArray(changes)||!changes.length||changes.length>250)throw Object.assign(new Error('Expected 1–250 changes'),{status:422});
@@ -89,9 +90,9 @@ async function readJson(req){let parts=[],length=0;for await(const chunk of req)
 const server=http.createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://127.0.0.1');
-  if(url.pathname==='/api/health'&&req.method==='GET')return json(res,200,{ok:true,mode:'local-demo-server',version:'0.3.0',scopedChanges:true,revision:db.revision,physicalPrinting:false,fiscal:false});
-  if(url.pathname==='/api/state'&&req.method==='GET')return json(res,200,{revision:db.revision,state:db.state});
-  if(url.pathname==='/api/patch'&&req.method==='POST'){
+  if(url.pathname==='/api/health'&amp;&amp;req.method==='GET')return json(res,200,{ok:true,mode:'local-demo-server',version:'0.3.0',scopedChanges:true,revision:db.revision,physicalPrinting:false,fiscal:false});
+  if(url.pathname==='/api/state'&amp;&amp;req.method==='GET')return json(res,200,{revision:db.revision,state:db.state});
+  if(url.pathname==='/api/patch'&amp;&amp;req.method==='POST'){
    const {requestId,changes}=await readJson(req);
    if(typeof requestId!=='string'||requestId.length<8||requestId.length>100)return json(res,422,{error:'Invalid requestId'});
    if(db.processedIds.includes(requestId))return json(res,200,{revision:db.revision,state:db.state,replayed:true,ticketsCreated:0});
@@ -100,7 +101,7 @@ const server=http.createServer(async(req,res)=>{
    db={revision:db.revision+1,state:result.draft,processedIds:[...db.processedIds,requestId].slice(-300)};
    persist();return json(res,200,{revision:db.revision,state:db.state,ticketsCreated:result.jobs.length});
   }
-  if(url.pathname==='/api/commit'&&req.method==='POST'){
+  if(url.pathname==='/api/commit'&amp;&amp;req.method==='POST'){
    const {revision,requestId,state}=await readJson(req);
    if(!Number.isInteger(revision)||typeof requestId!=='string'||requestId.length>100||!validState(state))return json(res,422,{error:'Invalid restaurant data or revision'});
    if(db.processedIds.includes(requestId))return json(res,200,{revision:db.revision,state:db.state,replayed:true});
@@ -112,10 +113,10 @@ const server=http.createServer(async(req,res)=>{
    persist();return json(res,200,{revision:db.revision,state:db.state,ticketsCreated:jobs.length});
   }
   if(url.pathname.startsWith('/api/'))return json(res,404,{error:'No such API route'});
-  if(req.method!=='GET'&&req.method!=='HEAD')return json(res,405,{error:'Method not allowed'});
+  if(req.method!=='GET'&amp;&amp;req.method!=='HEAD')return json(res,405,{error:'Method not allowed'});
   const requested=decodeURIComponent(url.pathname);
   const file=path.resolve(ROOT,'.'+(requested==='/'?'/index.html':requested));
-  if(file!==ROOT&&!file.startsWith(ROOT+path.sep))return json(res,403,{error:'Forbidden'});
+  if(file!==ROOT&amp;&amp;!file.startsWith(ROOT+path.sep))return json(res,403,{error:'Forbidden'});
   if(file.includes(path.sep+'data'+path.sep)||file.includes(path.sep+'server'+path.sep)||file.includes(path.sep+'docs'+path.sep)||path.basename(file).startsWith('.'))return json(res,403,{error:'Private resource'});
   let stat;try{stat=fs.statSync(file)}catch{return json(res,404,{error:'Not found'})}
   if(!stat.isFile())return json(res,404,{error:'Not found'});

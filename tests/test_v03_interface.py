@@ -13,7 +13,7 @@ with sync_playwright() as p:
     page=context.new_page();page.set_default_timeout(5000)
     errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.set_content(html,wait_until='domcontentloaded');page.wait_for_timeout(300)
-    page.locator('.sidebar [data-workspace="manager"]').click()
+    page.locator('[data-workspace="manager"]:visible').first.click()
     page.locator('.sidebar [data-nav="products"]').click()
     assert page.locator('#bulk-menu-file').count()==1
     csv='name,price,cost,family,category,subcategory,course,station,icon\nCalamari tapa,8.5,3.3,Food,Starters,Tapas,Starter,cold,🍤\nPremium steak,32,13,Food,Mains,Steaks,Main,hot,🥩\nSoda,3.2,0.45,Beverages,Drinks,Soft drinks,Drinks,bar,🥤\n'
@@ -23,11 +23,11 @@ with sync_playwright() as p:
     page.get_by_role('button',name='Import 3 products').click()
     assert page.get_by_text('Premium steak').count()>0
     page.locator('.sidebar [data-nav="settings"]').click()
-    assert page.get_by_text('Table & area setup').count()>0
+    assert page.get_by_text('Table &amp; area setup').count()>0
     page.locator('[data-form="floor-add"] [name="tableName"]').fill('Patio 9')
     page.locator('[data-form="floor-add"] [name="zone"]').fill('Patio')
     page.locator('[data-form="floor-add"] button[type="submit"]').click()
-    page.locator('.sidebar [data-workspace="service"]').click()
+    page.locator('[data-workspace="service"]:visible').first.click()
     page.locator('[data-zone="Patio"]').click()
     assert page.get_by_text('Patio 9').count()>0
     page.screenshot(path=str(ROOT/'screenshot-v03-waiter.png'))
@@ -40,7 +40,7 @@ with sync_playwright() as p:
     page.locator('[data-subcategory="Steaks"]').click()
     page.locator('[data-product]').filter(has_text='Premium steak').click()
     page.locator('[data-action="add-item"]').click();page.locator('[data-action="send-kitchen"]').click()
-    page.locator('.sidebar [data-workspace="manager"]').click();page.locator('.sidebar [data-nav="routing"]').click()
+    page.locator('[data-workspace="manager"]:visible').first.click();page.locator('.sidebar [data-nav="routing"]').click()
     assert page.locator('.job-list').get_by_text('Table 1').count()>0
     assert not errors,errors
     print('PASS: CSV preview/import, new table/area, subcategory waiter orders, kitchen routing. JS errors:',errors)
