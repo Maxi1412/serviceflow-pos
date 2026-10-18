@@ -1,6 +1,6 @@
-# ServiceFlow POS — Restaurant operations prototype v0.4
+# ServiceFlow POS — Restaurant operations prototype v0.5
 
-**Development/demo software only · 17 October 2026 · EUR · Sample restaurant: Marina Bistro**
+**Development/demo software only · 18 October 2026 · EUR · Sample restaurant: Marina Bistro**
 
 This project explores a future commercial restaurant point-of-sale system for restaurants and bars in Spain. The visual theme is original, preserving the approved ordering and management UI while switching the till home page to a full-size floor plan. It separates three workspaces:
 
@@ -15,9 +15,18 @@ This project explores a future commercial restaurant point-of-sale system for re
 - **GitHub Pages (standalone local-data demo):** `https://maxi1412.github.io/serviceflow-pos/` (works once the owner activates the Pages deployment successfully; not verified remotely from the build environment).
 - **Portable standalone demo:** open `demo-standalone.html` in a browser. No server needed; every browser has its own demo data in localStorage.
 - **Connected local prototype:** `npm start` on Node.js 20+ and open `http://127.0.0.1:4317/` from that same computer. Tested with Node.js 22.16.0. It stores data at the ignored `data/runtime.json` and shares changes between browser sessions on that LOCAL loopback host. Do not expose this unauthenticated server to a network or internet.
-- **Tests:** `npm test` (Node backend); `python tests/test_interface.py`; `python tests/test_v03_interface.py`; `python tests/test_v04_floor_designer.py` (optional Playwright+Chromium environment).
+- **Tests:** `npm test` (Node backend); `python tests/test_interface.py`; `python tests/test_v03_interface.py`; `python tests/test_v04_floor_designer.py`; `python tests/test_v05_ordering.py` (optional Playwright+Chromium environment).
 
 **GitHub Pages does not execute the Node backend.** A product edited in the static online demo appears to the same browser's waiter view, but not on other phones. Shared deployment awaits a secure backend.
+
+## Changes in v0.5 — MICROS-informed ergonomics (original ServiceFlow UI)
+
+- **Waiter order entry now uses the full workstation canvas**: check detail on the left, large category/product keys on the right, persistent check total and prominent send/hold/fire/payment command strip. Floor plan still opens first.
+- Assign **Seat 1…n** or Shared when adding a product to a table; unsent line seat can be changed with the check-side action.
+- **Hold** any unsent item: normal **Send order** deliberately excludes held lines. **Fire held** sends those later. Routes to the existing test KDS/print queue include seat number, course, modifiers and notes.
+- **Back Office → Menu editor** can set per-product POS button colour and touchscreen priority (0–99). Waiter keys sort accordingly, with menu search and category/subcategory buttons.
+- Full details and primary Oracle research links in `docs/V05_MICROS_RESEARCH.md`. This is an original UI, not an Oracle replica.
+- Validation: existing backend and interface regression tests, plus the new seat/hold/fire/search/presentation Playwright smoke test.
 
 ## Changes in v0.4
 
@@ -30,7 +39,7 @@ This project explores a future commercial restaurant point-of-sale system for re
 ## Earlier changes in v0.3
 
 - Import up to 500 products using CSV from **Back Office → Menu editor → Bulk menu import**. Download the template, upload your CSV, check the preview, and confirm. Existing products are not overwritten. Assign photos and steak modifier groups with the individual editor. CSV columns: `name,price,cost,family,category,subcategory,course,station,icon`.
-- **Back Office → Settings → Table &amp; area setup:** add tables and areas; rename a table and change its area. Changes appear in the waiter table plan.
+- **Back Office → Settings → Table & area setup:** add tables and areas; rename a table and change its area. Changes appear in the waiter table plan.
 - Waiter subcategory quick filters (e.g. Mains → Steaks) where a category has several subcategories.
 - Prototype server `/api/patch` supports scoped compare-and-swap changes so edits on independent tables/products no longer reject each other. Same-resource conflicts are detected and not silently overwritten. Logical kitchen tickets remain server-generated on newly sent order lines.
 
@@ -50,7 +59,7 @@ This project explores a future commercial restaurant point-of-sale system for re
 - `data/seed.json`: fictional seed. Test writes go to ignored `data/runtime.json`.
 - `tests/backend-floor.test.mjs`, `tests/backend-patch.test.mjs`, `tests/backend.test.mjs`: backend integration tests.
 - `tests/test_v03_interface.py`, `tests/test_interface.py`: optional headless browser tests.
-- `docs/V04_IMPLEMENTATION.md`, `docs/V03_IMPLEMENTATION.md`: feature changes, test scope, limitations and next development tasks.
+- `docs/V05_MICROS_RESEARCH.md`, `docs/V04_IMPLEMENTATION.md`, `docs/V03_IMPLEMENTATION.md`: feature changes, test scope, limitations and next development tasks.
 - `docs/ARCHITECTURE.md`, `docs/FEATURES.md`, `docs/ROADMAP.md`, `docs/SPAIN_COMPLIANCE.md`: research and roadmap (earlier documents may reflect original plans).
 
 The provisional ServiceFlow name has not been trademark-cleared. Code is not licensed for public redistribution. A public GitHub repository is visible to everyone; do not store secrets or actual client/customer data here.

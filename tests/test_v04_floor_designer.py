@@ -55,7 +55,7 @@ with sync_playwright() as p:
     page.locator('[name="covers"]').fill('3')
     page.locator('[data-form="covers"] button[type="submit"]').click()
     page.locator('[data-action="goto-order"]').click()
-    expect(page.get_by_role('heading',name='Waiter POS')).to_be_visible()
+    expect(page.get_by_text('SERVICE / ORDER ENTRY')).to_be_visible()
     page.locator('[data-nav="floor"]:visible').first.click()
     page.locator('[data-zone="Main room"]').click()
     assert page.locator('[data-table="m1"]').inner_text().startswith('Table 11')
